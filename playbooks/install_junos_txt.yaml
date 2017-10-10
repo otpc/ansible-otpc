@@ -4,12 +4,3 @@
   - Junos
   connection: local
   gather_facts: no
-
-  tasks: 
-  - name: Load the configuration file
-    install_junos: 
-      host={{ inventory_hostname }}
-      file=/etc/ansible/config_txt/{{ inventory_hostname }}.txt
-      port=22
-      user=col
-      passwd=col123col

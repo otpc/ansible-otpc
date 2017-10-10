@@ -1,15 +1,9 @@
 ---
 - name: Load the configuration to Junos devices
-  hosts: spines.dev
   roles:
   - Junos
   connection: local
   gather_facts: no
-  vars_prompt:
-    - name: user
-      prompt: "Username"
-    - name: passwd
-      prompt: "Password"
 
   tasks: 
   - name: Load the configuration file
@@ -17,5 +11,5 @@
       host={{ inventory_hostname }}
       file=/etc/ansible/config_txt/{{ inventory_hostname }}.txt
       port=22
-      user={{ user }}
-      passwd={{ passwd }}
+      user=col
+      passwd=col123col

@@ -2,6 +2,6 @@
 - name: Load the configuration to Junos devices
   roles:
   - Junos
-  hosts: dev.inv
+  hosts: CTSP901
   connection: local
   gather_facts: no

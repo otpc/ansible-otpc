@@ -1,0 +1,2 @@
+set interfaces et-0/0/12 description "ansible test"
+set interfaces et-0/0/13 description "ansible test"

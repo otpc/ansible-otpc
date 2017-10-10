@@ -1,0 +1,71 @@
+host:
+  management:
+    ip: 10.8.148.25
+    mask: 24
+
+user:
+  name: col
+  password: Col1@3col1@3Col
+
+addresss: 
+  - address1:
+    name: "apple"
+    type: wildcard-fqdn
+    wildcard-fqdn: "*.apple.com"
+
+  - address2:
+    name: "dropbox.com" 
+    type: wildcard-fqdn
+    wildcard-fqdn: "*.dropbox.com"
+
+policys:
+  - policy1:
+    name:
+    srcintf:
+    dstintf:
+    srcaddr:
+    dscaddr:
+    action:
+    schedule:
+    service:
+    utm-status:
+    logtraffic: all
+    comments:
+    ips-sensor:
+
+routes:
+  - route1:
+    name:
+    dst:
+    gateway:
+    device:
+    comment:
+
+interfaces: 
+  - interface1:
+    name:
+    vdom:
+    status:
+    ip:
+    allowaccess:
+    role:
+    mode:
+    type:
+    dedicated-to:
+    description:
+    alias:
+    snmp-index:
+    interface:
+    vlanid:
+    mtu-override:
+    mtu:
+    trust-ip-1:
+    trust-ip-2:
+    trust-ip-3:
+
+zones:
+  - zone1:
+    name:
+    interface:
+
+

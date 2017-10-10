@@ -1,0 +1,6 @@
+config firewall address
+edit "apple"
+set type wildcard-fqdn
+set wildcard-fqdn "*.apple.com"
+next
+end

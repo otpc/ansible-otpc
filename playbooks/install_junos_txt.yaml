@@ -1,7 +1,8 @@
 ---
 - name: Load the configuration to Junos devices
   roles:
-  - Junos
+  	- Junos
   hosts: CTSP901
   connection: local
   gather_facts: no
+

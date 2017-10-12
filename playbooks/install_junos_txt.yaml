@@ -1,6 +1,6 @@
 ---
 - name: Load the configuration to Junos devices
-  hosts: dev.inv
+  hosts: CTSP901
   roles:
   - Junos
   connection: local

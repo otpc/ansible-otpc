@@ -6,3 +6,5 @@
   connection: local
   gather_facts: no
 
+- name: Install configuration
+

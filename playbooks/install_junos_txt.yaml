@@ -9,7 +9,6 @@
   tasks: 
     - name: Load the configuration file
       install_junos: 
-        sudo=no
         host={{ inventory_hostname }}
         file=/etc/ansible/config_txt/{{ inventory_hostname }}.txt
         port=22

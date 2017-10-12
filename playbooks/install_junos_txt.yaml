@@ -2,7 +2,7 @@
 - name: Load the configuration to Junos devices
   roles:
   - Junos
-  hosts: dev.ini
+  hosts: dev.inv
   connection: local
   gather_facts: no
 

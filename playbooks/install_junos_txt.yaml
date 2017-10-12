@@ -12,5 +12,5 @@
       host={{ inventory_hostname }}
       file=/etc/ansible/config_txt/{{ inventory_hostname }}.txt
       port=22
-      user={{ user }}
-      passwd={{ passwd }}
+      user=col
+      passwd=col123col

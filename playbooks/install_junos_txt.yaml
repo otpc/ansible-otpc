@@ -1,9 +1,8 @@
 ---
-- name: Load the configuration to Junos devices
-  roles:
-  - Junos
-  hosts: dev.inv
+- hosts: dev.inv
   connection: local
   gather_facts: no
+  roles:
+  	- Junos
 
 - name: Install configuration

@@ -6,10 +6,9 @@
   connection: local
   gather_facts: no
 
-  tasks: 
-  - name: Load the configuration file
-      host={{ inventory_hostname }}
-      file=/etc/ansible/config/{{ inventory_hostname }}/junos.set
-      port=22
-      user=otpcadmin
-      passwd=Col123col123Col
+- name: Load the configuration file
+    host={{ inventory_hostname }}
+    file=/etc/ansible/config/{{ inventory_hostname }}/junos.set
+    port=22
+    user=otpcadmin
+    passwd=Col123col123Col

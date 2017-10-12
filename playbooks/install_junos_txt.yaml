@@ -1,8 +1,15 @@
 ---
-- hosts: dev.inv
+- name: Load the configuration to Junos devices
+  hosts: dev.inv
+  roles:
+  - Junos
   connection: local
   gather_facts: no
-  roles:
-  	- Junos
 
-- name: Install configuration
+  tasks: 
+  - name: Load the configuration file
+      host={{ inventory_hostname }}
+      file=/etc/ansible/config/{{ inventory_hostname }}/junos.set
+      port=22
+      user=otpcadmin
+      passwd=Col123col123Col

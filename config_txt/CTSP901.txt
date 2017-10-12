@@ -1,0 +1,1 @@
+set interfaces et-0/0/2 description "Testing_config"

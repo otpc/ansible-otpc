@@ -5,22 +5,15 @@
   - Fortigate
   connection: local
   gather_facts: no
-  vars_prompt:
-    - name: user
-      prompt: "Username"
-    - name: passwd
-      prompt: "Password"
-    - name: vdom
-      prompt: "Vdom"
 
   tasks: 
   - name: Load the configuration file
     st_install_forti_v2: 
       host={{ inventory_hostname }}
       file=/etc/ansible/config/ST_{{ inventory_hostname }}.txt
-      vdom={{ vdom }}
-      user={{ user }}
-      passwd={{ passwd }}
+      vdom=test
+      user=col  
+      passwd=Col1@3col1@3Col
     register: testout
   - name: dump output
     debug:

@@ -1,6 +1,6 @@
 ---
 - name: Load the configuration to Junos devices
-  hosts: CTSP901
+  hosts: Spine
   roles:
     - Junos
   connection: local
@@ -14,8 +14,7 @@
         port=22
         user=col
         passwd=col123col
-        
+      register: testout
     - name: dump output
       debug:
-      msg: '{{ testout }}'
-
+        msg: '{{ testout }}'

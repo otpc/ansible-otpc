@@ -1,6 +1,6 @@
 ---
 - name: Load the configuration to Forti devices
-  hosts: fw.dev
+  hosts: Firewall
   roles:
   - Fortigate
   connection: local

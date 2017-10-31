@@ -14,6 +14,7 @@
         port=22
         user=col
         passwd=col123col
-        
+    register: testout
     - name: dump output
-      debug: msg='{{ testout }}'
+      debug:
+        msg: '{{ testout }}'

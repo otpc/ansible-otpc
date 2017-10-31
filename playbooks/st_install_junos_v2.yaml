@@ -16,5 +16,4 @@
         passwd=col123col
         
     - name: dump output
-      debug:
-        msg: '{{ testout }}'
+      debug: msg='{{ testout }}'

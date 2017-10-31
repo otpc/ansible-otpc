@@ -1,6 +1,6 @@
 ---
 - name: Load the configuration to Junos devices
-  hosts: CTSP901
+  hosts: Spine
   roles:
     - Junos
   connection: local

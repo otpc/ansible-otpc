@@ -1,17 +1,26 @@
 ---
 - name: Load the configuration to Forti devices
-  hosts: Firewall
+  hosts: fw.dev
   roles:
   - Fortigate
   connection: local
   gather_facts: no
+  vars_prompt:
+    - name: user
+      prompt: "Username"
+    - name: passwd
+      prompt: "Password"
+    - name: vdom
+      prompt: "Vdom"
 
   tasks: 
   - name: Load the configuration file
     st_install_forti_v2: 
       host={{ inventory_hostname }}
       file=/etc/ansible/config/ST_{{ inventory_hostname }}.txt
-      vdom=test
+      vdom={{ vdom }}
+      user={{ user }}
+      passwd={{ passwd }}
     register: testout
   - name: dump output
     debug:

@@ -12,6 +12,8 @@
       host={{ inventory_hostname }}
       file=/etc/ansible/config/ST_{{ inventory_hostname }}.txt
       vdom=test
+      user=col  
+      passwd=Col1@3col1@3Col
     register: testout
   - name: dump output
     debug:

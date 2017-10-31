@@ -1,1 +1,0 @@
-set interfaces ge-0/1/1 description "Testing_config"

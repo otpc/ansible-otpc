@@ -10,7 +10,7 @@
     - name: Load the configuration file
       st_install_junos_v2: 
         host={{ inventory_hostname }}
-        file=/etc/ansible/config/ST_{{ inventory_hostname }}.txt
+        file=/etc/ansible/config/{{ inventory_hostname }}.txt
         port=22
         user=col
         passwd=col123col

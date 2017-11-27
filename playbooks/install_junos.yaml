@@ -1,0 +1,14 @@
+---
+- name: Load the configuration to Junos devices
+  hosts: Development
+  roles:
+  - Junos
+  connection: local
+  gather_facts: no
+
+  tasks: 
+  - name: Load the configuration file
+    install_junos: 
+      host={{ inventory_hostname }}
+      file=/etc/ansible/config/{{ inventory_hostname }}.txt
+      port=22

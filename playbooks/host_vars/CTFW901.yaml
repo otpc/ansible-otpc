@@ -1,71 +1,107 @@
-host:
-  management:
-    ip: 10.8.148.25
-    mask: 24
-
-user:
-  name: col
-  password: Col1@3col1@3Col
-
-addresss: 
-  - address1:
-    name: "apple"
-    type: wildcard-fqdn
-    wildcard-fqdn: "*.apple.com"
-
-  - address2:
-    name: "dropbox.com" 
-    type: wildcard-fqdn
-    wildcard-fqdn: "*.dropbox.com"
-
-policys:
-  - policy1:
-    name:
-    srcintf:
-    dstintf:
-    srcaddr:
-    dscaddr:
-    action:
-    schedule:
-    service:
-    utm-status:
-    logtraffic: all
-    comments:
-    ips-sensor:
-
-routes:
-  - route1:
-    name:
-    dst:
-    gateway:
-    device:
-    comment:
-
-interfaces: 
+interfaces:
   - interface1:
-    name:
-    vdom:
-    status:
-    ip:
-    allowaccess:
-    role:
+    name: Test_interface
+    vdom: "Test"
+    ip: 10.1.1.1 255.255.255.0
+    allowaccess: ping
+    role: undefined
     mode:
     type:
-    dedicated-to:
+    dedicated_to:
     description:
-    alias:
-    snmp-index:
-    interface:
-    vlanid:
-    mtu-override:
+    alias: 
+    snmp_index:
+    interface: port23
+    vlanid: 101
+    mtu_override:
     mtu:
-    trust-ip-1:
-    trust-ip-2:
-    trust-ip-3:
+    trust_ip_1: 
+    trust_ip_2: 
+    trust_ip_3:
+
+  - interface2:
+    name: Test_interface1
+    vdom: "Test"
+    ip: 10.2.2.1 255.255.255.0
+    allowaccess: ping
+    role: undefined
+    mode:
+    type:
+    dedicated_to:
+    description:
+    alias: 
+    snmp_index:
+    interface: port24
+    vlanid: 102
+    mtu_override:
+    mtu:
+    trust_ip_1:
+    trust_ip_2:
+    trust_ip_3:
 
 zones:
   - zone1:
+    name: Test_zone1
+    interface: Test_interface
+  - zone2:
+    name: Test_zone2
+    interface: Test_interface1
+
+addresses:
+  - address1:
+    name: "Host_10.1.1.2"
+    comment: "Test host"
+    associated: "Test_zone1"
+    subnet: 10.1.1.2 255.255.255.255
+
+  - address2:
+    name: "RANGE_10.2.2.2-3"
+    type: iprange
+    comment: "Test host range"
+    associated: "Test_zone2"
+    start_ip: 10.2.2.2
+    end_ip: 10.2.2.3
+
+policys:
+  - policy1:
+    id: 5
+    name: "Test123"
+    srcintf: "Test_zone1"
+    dstintf: "Test_zone2"
+    srcaddr: "all"
+    dscaddr: "RANGE_10.2.2.2-3"
+    action: accept
+    schedule: "always"
+    service: "TCP/22"
+    utm_status: enable
+    logtraffic: all
+    comments: 
+    ips_sensor: "Test"
+
+routes:
+  - route1:
+    seqnum: 0
+    dst: 10.3.3.1 255.255.255.0
+    gateway: 10.1.1.2
+    device: "Test_interface"
+    comment:
+
+del_zones:
+  - del_zone1:
     name:
-    interface:
 
+del_routes:
+  - del_route1:
+    seqnum: 1
 
+del_addresses:
+  - del_address1:
+    name: 
+
+del_interfaces:
+  - del_interface1:
+    name: "Test_interface"
+
+del_policies:
+  - del_policy1:
+    id: 5

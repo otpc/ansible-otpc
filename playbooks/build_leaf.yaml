@@ -1,0 +1,14 @@
+---
+- name: Build the leaf configuration for Junos devices
+  hosts: Leaf
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - host_vars/{{ inventory_hostname }}.yaml
+
+  tasks:
+  - name: Build the configuration file from host variable
+    template:
+      src: "/etc/ansible/roles/Junos/templates/leaf.txt.j2"
+      dest: "/etc/ansible/config/{{ inventory_hostname }}.txt"

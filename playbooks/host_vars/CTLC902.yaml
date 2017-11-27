@@ -1,0 +1,21 @@
+interfaces:
+  - interface1:
+    config: 
+    name: 
+    unit: 
+    vlan: 
+    mode: 
+    mtu: 
+    description: 
+
+vlans:
+  - vlan1:
+    config: 
+    vlan: 
+    id: 
+    l3interface: 
+    description: 
+    igmp_interface: 
+    igmp_vlan: 
+    igmp_address: 
+

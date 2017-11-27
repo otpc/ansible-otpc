@@ -1,0 +1,21 @@
+set vlans vlan101 vlan-id 101
+set vlans vlan101 l3-interface irb.101
+set vlans vlan101 description "Testing_config"
+set protocols igmp interface irb.101
+set protocols igmp-snooping vlan vlan101 l2-querier source-address 10.1.93.252
+set interfaces irb unit 101 description "Testing_config"
+set interfaces irb unit 101 family inet address 10.1.93.252/24 vrrp-group 10 virtual-address 10.1.93.254
+set interfaces et-0/0/12 unit 0 family ethernet-switching vlan members vlan101
+set interfaces et-0/0/12 description "ansible test"
+set interfaces et-0/0/12 mtu 9192
+set interfaces et-0/0/12 unit 0 family ethernet-switching interface-mode trunk
+set interfaces et-0/0/13 unit 0 family ethernet-switching vlan members vlan101
+set interfaces et-0/0/13 description "ansible test"
+set interfaces et-0/0/13 mtu 9192
+set interfaces et-0/0/13 unit 0 family ethernet-switching interface-mode access
+set routing-instances CASH interface irb.101
+set routing-instances CASH protocols ospf area 0 interface irb.101 interface-type p2p
+set routing-instances CASH protocols ospf area 0 interface irb.101 metric 10
+set routing-instances CASH routing-options static route 192.168.1.1 next-hop 10.90.3.6
+set firewall family inet filter TEST term 1 from protocol udp
+set firewall family inet filter TEST term 1 then accept

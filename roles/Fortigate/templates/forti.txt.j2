@@ -1,0 +1,241 @@
+{# Interface #}
+{% if interfaces is defined %}
+config system interface
+{% for interface in interfaces %}
+{% if interface.name is string %}
+edit "{{ interface.name }}"
+{% if interface.vdom is string %}
+set vdom "{{ interface.vdom }}"
+{% endif %}
+{% if interface.status is string %}
+set status {{ interface.status }}
+{% endif %}
+{% if interface.ip is string %}
+set ip {{ interface.ip }}
+{% endif %}
+{% if interface.allowaccess is string %}
+set allowaccess {{ interface.allowaccess }}
+{% endif %}
+{% if interface.role is string %}
+set role {{ interface.role }}
+{% endif %}
+{% if interface.type is string %}
+set type {{ interface.type }}
+{% endif %}
+{% if interface.dedicated_to is string %}
+set dedicated-to {{ interface.dedicated_to }}
+{% endif %}
+{% if interface.description is string %}
+set description "{{ interface.description }}"
+{% endif %}
+{% if interface.alias is string %}
+set alias "{{ interface.alias }}"
+{% endif %}
+{% if interface.snmp_index is number %}
+set snmp-index {{ interface.snmp_index }}
+{% endif %}
+{% if interface.interface is string %}
+set interface "{{ interface.interface }}"
+{% endif %}
+{% if interface.vlanid is number %}
+set vlanid {{ interface.vlanid }}
+{% endif %}
+{% if interface.mtu_override is string %}
+set mtu-override {{ interface.mtu_override }}
+{% endif %}
+{% if interface.mtu is number %}
+set mtu {{ interface.mtu }}
+{% endif %}
+{% if interface.trust_ip_1 is string %}
+set trust-ip-1 {{ interface.trust_ip_1 }}
+{% endif %}
+{% if interface.trust_ip_2 is string %}
+set trust-ip-2 {{ interface.trust_ip_2 }}
+{% endif %}
+{% if interface.trust_ip_3 is string %}
+set trust-ip-3 {{ interface.trust_ip_3 }}
+{% endif %}
+next
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Zone #}
+{% if zones is defined %}
+config system zone
+{% for zone in zones %}
+{% if zone.name is string %}
+edit "{{ zone.name }}"
+{% if zone.interface is string %}
+set interface "{{ zone.interface }}"
+{% endif %}
+next
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Address #}
+{% if addresses is defined %}
+config firewall address
+{% for address in addresses %}
+{% if address.name is string %}
+edit "{{ address.name }}"
+{% if address.type is string %}
+set type {{ address.type }}
+{% endif %}
+{% if address.wildcard_fqdn is string %}
+set wildcard-fqdn "{{ address.wildcard_fqdn }}"
+{% endif %}
+{% if address.fqdn is string %}
+set fqdn "{{ address.fqdn }}"
+{% endif %}
+{% if address.start_ip is string %}
+set start-ip {{ address.start_ip }}
+{% endif %}
+{% if address.end_ip is string %}
+set end-ip {{ address.end_ip }}
+{% endif %}
+{% if address.comment is string %}
+set comment "{{ address.comment }}"
+{% endif %}
+{% if address.associated is string %}
+set associated-interface "{{ address.associated }}"
+{% endif %}
+{% if address.subnet is string %}
+set subnet {{ address.subnet }}
+{% endif %}
+next
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Policy #}
+{% if policys is defined %}
+config firewall policy
+{% for policy in policys %}
+{% if policy.id is number %}
+edit {{ policy.id }}
+{% if policy.name is string %}
+set name "{{ policy.name }}"
+{% endif %}
+{% if policy.srcintf is string %}
+set srcintf "{{ policy.srcintf }}"
+{% endif %}
+{% if policy.dstintf is string %}
+set dstintf "{{ policy.dstintf }}"
+{% endif %}
+set srcaddr "all"
+set dstaddr "all"
+{% if policy.action is string %}
+set action "{{ policy.action }}"
+{% endif %}
+{% if policy.schedule is string %}
+set schedule "{{ policy.schedule }}"
+{% endif %}
+{% if policy.service is string %}
+set service "{{ policy.service }}"
+{% endif %}
+{% if policy.utm_status is string %}
+set utm-status {{ policy.utm_status }}
+{% endif %}
+{% if policy.logtraffic is string %}
+set logtraffic {{ policy.logtraffic }}
+{% endif %}
+{% if policy.comments is string %}
+set comments "{{ policy.comments }}"
+{% endif %}
+{% if policy.ips_sensor is string %}
+set ips-sensor "{{ policy.ips_sensor }}"
+{% endif %}
+next
+{% endif %}
+{% endfor %}
+{% for policy in policys %}
+{% if policy.id is number %}
+edit {{ policy.id }}
+{#
+{% if policy.srcaddr is string %}
+set srcaddr "{{ policy.srcaddr }}"
+{% endif %}
+#}
+{% if policy.dscaddr is string %}
+set dstaddr "{{ policy.dscaddr }}"
+{% endif %}
+next
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Route #}
+{% if routes is defined %}
+config router static
+{% for route in routes %}
+{% if route.seqnum is number %}
+edit {{ route.seqnum }}
+{% if route.dst is string %}
+set dst {{ route.dst }}
+{% endif %}
+{% if route.gateway is string %}
+set gateway {{ route.gateway }}
+{% endif %}
+{% if route.device is string %}
+set device "{{ route.device }}"
+{% endif %}
+{% if route.comment is string %}
+set comment "{{ route.comment }}"
+{% endif %}
+next
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Del_Policy #}
+{% if del_policies is defined %}
+config firewall policy
+{% for del_policy in del_policies %}
+{% if del_policy.id is number %}
+delete {{ del_policy.id }}
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Del_Address #}
+{% if del_addresses is defined %}
+config firewall address
+{% for del_address in del_addresses %}
+{% if del_address.name is string %}
+delete "{{ del_address.name }}"
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Del_Route #}
+{% if del_routes is defined %}
+config router static
+{% for del_route in del_routes %}
+{% if del_route.seqnum is number %}
+delete {{ del_route.seqnum }}
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Del_Interface #}
+{% if del_interfaces is defined %}
+config system interface
+{% for del_interface in del_interfaces %}
+{% if del_interface.name is string %}
+delete "{{ del_interface.name }}"
+{% endif %}
+{% endfor %}
+end
+{% endif %}
+{# Del_Zone #}
+{% if del_zones is defined %}
+config system zone
+{% for del_zone in del_zones %}
+{% if del_zone.name is string %}
+delete "{{ del_zone.name }}"
+{% endif %}
+{% endfor %}
+end
+{% endif %}

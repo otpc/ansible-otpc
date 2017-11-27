@@ -1,0 +1,107 @@
+interfaces:
+  - interface1:
+    name: Test_interface
+    vdom: "Test"
+    ip: 10.1.1.1 255.255.255.0
+    allowaccess: ping
+    role: undefined
+    mode:
+    type:
+    dedicated_to:
+    description:
+    alias: 
+    snmp_index:
+    interface: port23
+    vlanid: 101
+    mtu_override:
+    mtu:
+    trust_ip_1: 
+    trust_ip_2: 
+    trust_ip_3:
+
+  - interface2:
+    name: Test_interface1
+    vdom: "Test"
+    ip: 10.2.2.1 255.255.255.0
+    allowaccess: ping
+    role: undefined
+    mode:
+    type:
+    dedicated_to:
+    description:
+    alias: 
+    snmp_index:
+    interface: port24
+    vlanid: 102
+    mtu_override:
+    mtu:
+    trust_ip_1:
+    trust_ip_2:
+    trust_ip_3:
+
+zones:
+  - zone1:
+    name: Test_zone1
+    interface: Test_interface
+  - zone2:
+    name: Test_zone2
+    interface: Test_interface1
+
+addresses:
+  - address1:
+    name: "Host_10.1.1.2"
+    comment: "Test host"
+    associated: "Test_zone1"
+    subnet: 10.1.1.2 255.255.255.255
+
+  - address2:
+    name: "RANGE_10.2.2.2-3"
+    type: iprange
+    comment: "Test host range"
+    associated: "Test_zone2"
+    start_ip: 10.2.2.2
+    end_ip: 10.2.2.3
+
+policys:
+  - policy1:
+    id: 5
+    name: "Test123"
+    srcintf: "Test_zone1"
+    dstintf: "Test_zone2"
+    srcaddr: "all"
+    dscaddr: "RANGE_10.2.2.2-3"
+    action: accept
+    schedule: "always"
+    service: "TCP/22"
+    utm_status: enable
+    logtraffic: all
+    comments: 
+    ips_sensor: "Test"
+
+routes:
+  - route1:
+    seqnum: 
+    dst: 
+    gateway: 
+    device: 
+    comment:
+
+del_zones:
+  - del_zone1:
+    name:
+
+del_routes:
+  - del_route1:
+    seqnum: 
+
+del_addresses:
+  - del_address1:
+    name: 
+
+del_interfaces:
+  - del_interface1:
+    name: 
+
+del_policies:
+  - del_policy1:
+    id: 

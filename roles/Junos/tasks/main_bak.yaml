@@ -1,0 +1,6 @@
+---
+- name: Building leafs main configuration
+
+  template:
+    src: spine.txt.j2
+    dest: "/etc/ansible/config/{{ inventory_hostname }}.txt"

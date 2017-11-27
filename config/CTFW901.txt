@@ -1,0 +1,78 @@
+config system interface
+edit "Test_interface"
+set vdom "Test"
+set ip 10.1.1.1 255.255.255.0
+set allowaccess ping
+set role undefined
+set interface "port23"
+set vlanid 101
+next
+edit "Test_interface1"
+set vdom "Test"
+set ip 10.2.2.1 255.255.255.0
+set allowaccess ping
+set role undefined
+set interface "port24"
+set vlanid 102
+next
+end
+config system zone
+edit "Test_zone1"
+set interface "Test_interface"
+next
+edit "Test_zone2"
+set interface "Test_interface1"
+next
+end
+config firewall address
+edit "Host_10.1.1.2"
+set comment "Test host"
+set associated-interface "Test_zone1"
+set subnet 10.1.1.2 255.255.255.255
+next
+edit "RANGE_10.2.2.2-3"
+set type iprange
+set start-ip 10.2.2.2
+set end-ip 10.2.2.3
+set comment "Test host range"
+set associated-interface "Test_zone2"
+next
+end
+config firewall policy
+edit 5
+set name "Test123"
+set srcintf "Test_zone1"
+set dstintf "Test_zone2"
+set srcaddr "all"
+set dstaddr "all"
+set action "accept"
+set schedule "always"
+set service "TCP/22"
+set utm-status enable
+set logtraffic all
+set ips-sensor "Test"
+next
+edit 5
+set dstaddr "RANGE_10.2.2.2-3"
+next
+end
+config router static
+edit 0
+set dst 10.3.3.1 255.255.255.0
+set gateway 10.1.1.2
+set device "Test_interface"
+next
+end
+config firewall policy
+delete 5
+end
+config firewall address
+end
+config router static
+delete 1
+end
+config system interface
+delete "Test_interface"
+end
+config system zone
+end

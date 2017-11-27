@@ -1,0 +1,13 @@
+set vlans vlan101 vlan-id 101
+set vlans vlan101 l3-interface irb.101
+set vlans vlan101 description "Testing_config"
+set protocols igmp interface irb.101
+set protocols igmp-snooping vlan vlan101 l2-querier source-address 10.1.93.252
+set interfaces et-0/0/12 unit 0 family ethernet-switching vlan members vlan101
+set interfaces et-0/0/12 description "ansible test"
+set interfaces et-0/0/12 mtu 9192
+set interfaces et-0/0/12 unit 0 family ethernet-switching interface-mode trunk
+set interfaces et-0/0/13 unit 0 family ethernet-switching vlan members vlan101
+set interfaces et-0/0/13 description "ansible test"
+set interfaces et-0/0/13 mtu 9192
+set interfaces et-0/0/13 unit 0 family ethernet-switching interface-mode access

@@ -1,0 +1,65 @@
+interfaces:
+  - interface1:
+    config: set
+    name: et-0/0/12
+    unit: 0
+    vlan: vlan101
+    mode: trunk
+    mtu: 9192
+    description: "ansible test"
+
+  - interface2:
+    config: set
+    name: et-0/0/13
+    unit: 0
+    vlan: vlan101
+    mode: access
+    mtu: 9192
+    description: "ansible test"
+
+vlans:
+  - vlan1:
+    config: set
+    vlan: vlan101
+    id: 101
+    l3interface: irb.101
+    description: "Testing_config"
+    igmp_interface: irb.101
+    igmp_vlan: vlan101
+    igmp_address: 10.1.93.252
+
+l3interfaces:
+  - l3interface1:
+    config: set
+    interface: irb
+    unit: 101
+    description: "Testing_config"
+    inet_address: 10.1.93.252/24
+    vrrp: 10
+    virtual: 10.1.93.254
+
+VRs:
+  - VR1:
+    config: set
+    instances: CASH
+    interface: irb.101
+    area: 0
+    interface_type: p2p
+    metric: 10
+    passive: no
+
+routes:
+  - route1:
+    config: set
+    instances: CASH
+    route: 192.168.1.1
+    nexthop: 10.90.3.6
+
+filters:
+  - filter1:
+    config: set
+    firewall: inet
+    filter: TEST
+    term: 1
+    from: protocol udp
+    accept: yes

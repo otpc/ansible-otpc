@@ -1,0 +1,101 @@
+{# VLAN #}
+{% if vlans is defined %}
+{% for vlan in vlans %}
+{% if vlan.config is string %}
+{% if vlan.vlan is string %}
+{% if vlan.id is number %}
+{{ vlan.config }} vlans {{ vlan.vlan }} vlan-id {{ vlan.id }}
+{% endif %}
+{% if vlan.l3interface is string %}
+{{ vlan.config }} vlans {{ vlan.vlan }} l3-interface {{ vlan.l3interface }}
+{% endif %}
+{% if vlan.description is string %}
+{{ vlan.config }} vlans {{ vlan.vlan }} description "{{ vlan.description }}"
+{% endif %}
+{% endif %}
+{% if vlan.igmp_interface is string %}
+{{ vlan.config }} protocols igmp interface {{ vlan.igmp_interface }}
+{% endif %}
+{% if vlan.igmp_vlan and vlan.igmp_address is string %}
+{{ vlan.config }} protocols igmp-snooping vlan {{ vlan.igmp_vlan }} l2-querier source-address {{ vlan.igmp_address }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{# L3Interface #}
+{% if l3interfaces is defined %}
+{% for l3interface in l3interfaces %}
+{% if l3interface.unit is number and l3interface.config and l3interface.interface is string %}
+{% if l3interface.description is string %}
+{{ l3interface.config }} interfaces {{ l3interface.interface }} unit {{ l3interface.unit }} description "{{ l3interface.description }}"
+{% endif %}
+{% if l3interface.inet_address is string %}
+{% if l3interface.vrrp is none or l3interface.virtual is none %}
+{{ l3interface.config }} interfaces {{ l3interface.interface }} unit {{ l3interface.unit }} family inet address {{ l3interface.inet_address }}
+{% endif %}
+{% if l3interface.vrrp is number and l3interface.virtual is string %}
+{{ l3interface.config }} interfaces {{ l3interface.interface }} unit {{ l3interface.unit }} family inet address {{ l3interface.inet_address }} vrrp-group {{ l3interface.vrrp }} virtual-address {{ l3interface.virtual }}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{# Port #}
+{% if interfaces is defined %}
+{% for interface in interfaces %}
+{% if interface.config and interface.name is string %}
+{% if interface.unit is number and interface.vlan is string %}
+{{ interface.config }} interfaces {{ interface.name }} unit {{ interface.unit }} family ethernet-switching vlan members {{ interface.vlan }}
+{% endif %}
+{% if interface.description is string %}
+{{ interface.config }} interfaces {{ interface.name }} description "{{ interface.description }}"
+{% endif %}
+{% if interface.mtu is number %}
+{{ interface.config }} interfaces {{ interface.name }} mtu {{ interface.mtu }}
+{% endif %}
+{% if interface.unit is number and interface.mode is string %}
+{{ interface.config }} interfaces {{ interface.name }} unit {{ interface.unit }} family ethernet-switching interface-mode {{ interface.mode }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{# VR #}
+{% if VRs is defined %}
+{% for vr in VRs %}
+{% if vr.config and vr.instances and vr.interface is string %}
+{{ vr.config }} routing-instances {{ vr.instances }} interface {{ vr.interface }}
+{% if vr.area is number %}
+{% if vr.interface_type is string %}
+{{ vr.config }} routing-instances {{ vr.instances }} protocols ospf area {{ vr.area }} interface {{ vr.interface }} interface-type {{ vr.interface_type }}
+{% endif %}
+{% if vr.passive == True %}
+{{ vr.config }} routing-instances {{ vr.instances }} protocols ospf area {{ vr.area }} interface {{ vr.interface }} passive
+{% endif %}
+{% if vr.metric is number %}
+{{ vr.config }} routing-instances {{ vr.instances }} protocols ospf area {{ vr.area }} interface {{ vr.interface }} metric {{ vr.metric }}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{# Route #}
+{% if routes is defined %}
+{% for route in routes %}
+{% if route.config and route.instances and route.route and route.nexthop is string %}
+{{ route.config }} routing-instances {{ route.instances }} routing-options static route {{ route.route }} next-hop {{ route.nexthop }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{# Filter #}
+{% if filters is defined %}
+{% for filter in filters %}
+{% if filter.term is number and filter.config and filter.filter and filter.firewall is string %}
+{% if filter.from is string %}
+{{ filter.config }} firewall family {{ filter.firewall }} filter {{ filter.filter }} term {{ filter.term }} from {{ filter.from }}
+{% endif %}
+{% if filter.accept == True %}
+{{ filter.config }} firewall family {{ filter.firewall }} filter {{ filter.filter }} term {{ filter.term }} then accept
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}

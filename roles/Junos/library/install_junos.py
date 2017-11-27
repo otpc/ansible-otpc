@@ -1,143 +1,106 @@
-#!/usr/bin/env python
-
-# Copyright (c) 2017, COL Limited
-#               2017, Kylie Yeung
-#
-# All rights reserved.
-
-DOCUMENTATION = '''
----
-module: install_junos
-author: Kylie Yeung, COL Limited
-version_added: "1.0.0"
-short_description: Install configuration to junos devices
-description:
-    - Install configuration to junos devices
-requirements:
-    - junos-eznc >= 1.2.2
-options:
-    host:
-        description:
-            - Set to {{ inventory_hostname }}
-        required: true
-    user:
-        description:
-            - Login username
-        required: false
-        default: $USER
-    passwd:
-        description:
-            - Login password
-        required: false
-        default: assumes ssh-key active
-    file:
-        description:
-            - Path to the file containing the Junos OS configuration data.
-              The file has a C(*.set) extension, the content is treated as 
-              Junos OS B(set) commands.
-        required: true
-    port:
-        description:
-            - port number to use when connecting to the device
-        required: false
-        default: 22
 '''
+Created by Kylie Yeung (kylieyeung@col.com.hk) for HKEX OTP-C
 
-EXAMPLES = '''
-# load merge a change to the Junos OS configuration using NETCONF
+Version 2.0
 
-- junos_install_config:
-    host={{ inventory_hostname }}
-    file=banner.conf
+Modified by ST (Revision 1.0)
+
 '''
-
-#import logging
-from os.path import isfile
-import os
-from distutils.version import LooseVersion
-# from jnpr.junos.exception import *
-
-def installConfig(module):
-    args = module.params
-
-    from jnpr.junos import Device
-    from jnpr.junos.utils.config import Config
-    from jnpr.junos.exception import ConnectError, LockError, CommitError
-    import sys
-    # import getpass
-
-    dev = Device(host=args['host'], port=args['port'], user=args['user'], password=args['passwd'])
-
-    try:
-        dev.open()
-    except ConnectError as err:
-        msg = 'Unable to connect to {0}'.format(args['host'])
-        module.fail_json(msg=msg)
-        return
-
-    dev.timeout = 300
-
-    cu = Config(dev)
-
-    results = {}
-    results['changed'] = False
-
-    file_path = module.params['file']
-    file_path = os.path.abspath(file_path)
-
-    try:
-        cu.lock()
-
-    except LockError as err:
-        msg = "Unable to lock configuration"
-        module.fail_json(msg=msg)
-
-    # load_args = {'path': file_path}
-    
-
-    cu.load(path=args['file'], format="set")
-
-    diff = cu.diff()
-
-    if diff is not None:
-        results['changed'] = True
-
-    try:
-        cu.commit()
-    except CommitError as err:
-        msg = "Unable to commit configuration"
-        module.fail_json(msg=msg)
-
-    dev.close()
-    module.exit_json(**results)
-
-
-# ---------------------------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------------------------
-
-
-def main():
-    module = AnsibleModule(
-        argument_spec=dict(
-            host=dict(required=True),
-            user=dict(required=False),
-            passwd=dict(required=False, default=None),
-            file=dict(required=True),
-            port=dict(required=False, default=22),
-        ))
-
-    args = module.params
-
-    # ------------------------------
-    # make sure file actually exists
-    # ------------------------------
-
-    if not isfile(args['file']):
-        module.fail_json(msg="Configuration file not found")
-        return
-    
-    installConfig(module)
 
 from ansible.module_utils.basic import *
-main()
+from jnpr.junos import Device
+from jnpr.junos.utils.config import Config
+from jnpr.junos.exception import *
+import sys
+import getpass
+import time
+import datetime
+
+module = AnsibleModule(
+    argument_spec=dict(
+        host=dict(required=True),
+        user=dict(required=False),
+        passwd=dict(required=False, default=None),
+        file=dict(required=True),
+        port=dict(required=False, default=22),
+    ))
+
+args = module.params
+
+host = args['host']
+port = args['port']
+file = args['file']
+user = args['user']
+passwd = args['passwd']
+
+'''
+host = sys.argv[1]
+port = sys.argv[2]
+file = sys.argv[3]
+user = sys.argv[4]
+passwd = sys.argv[5]
+'''
+
+def InstallConfig():
+
+	dev = Device(host=host, port=port, user=user, password=passwd)
+
+	try:
+		dev.open()
+	except ConnectError as err:
+		#print('Error: ' + repr(err))
+                msg = 'Unable to connect to {0}'.format(args['host'])
+                module.fail_json(msg=msg)
+                return
+
+	dev.timeout = 300
+
+	cu = Config(dev)
+
+        results = {}
+        results['changed'] = False
+
+	try:
+		cu.lock()
+	except LockError as err:
+		#print ("Error: Unable to lock configuration")
+                msg = 'Unable to lock configuration'
+                module.fail_json(msg=msg)
+                return
+
+	cu.load(path=file, format="set")
+
+	try:
+		cu.commit()
+		#print ('Commit successful')
+                results['commit'] = "successful"
+	except RpcError as err:
+		#print ('Commit error')
+                msg = "Commit error"
+                module.fail_json(msg=msg)
+                return
+
+	diff = cu.diff(rb_id=1)
+
+        if diff is not None:
+            results['changed'] = True
+
+	#print ("Compare the difference after commit change")
+	#print diff   #this diff variable will be string of the difference. You can parse accordingly to achieve verification
+        results['difference'] = diff
+
+	cu.unlock()
+
+	dev.close()
+	module.exit_json(**results)
+
+
+def Main():
+
+	InstallConfig()
+
+if __name__ == '__main__':
+	try:
+		Main()
+	except KeyboardInterrupt:
+		pass

@@ -1,6 +1,6 @@
 ---
 - name: Load the configuration to Junos devices
-  hosts: Development
+  hosts: Spine
   roles:
   - Junos
   connection: local

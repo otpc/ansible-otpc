@@ -92,7 +92,7 @@ del_zones:
 
 del_routes:
   - del_route1:
-    seqnum: 1
+    seqnum:
 
 del_addresses:
   - del_address1:
@@ -100,8 +100,8 @@ del_addresses:
 
 del_interfaces:
   - del_interface1:
-    name: "Test_interface"
+    name:
 
 del_policies:
   - del_policy1:
-    id: 5
+    id:
